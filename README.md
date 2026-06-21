@@ -107,10 +107,13 @@ Create a desktop shortcut with the target set to:
 **Yes!** Most store apps can be cloned using this exact method, but there are some exceptions and limitations:
 
 ### 🟢 What CAN be cloned easily:
-* **Win32 apps packaged as MSIX:** Many desktop apps (like WhatsApp, Telegram, Spotify, or Discord Desktop) are standard Win32 programs packaged inside MSIX. These clone easily because they behave like standard applications.
+* **Win32 apps packaged as MSIX:** Many desktop apps (like Telegram, Spotify, or Discord Desktop) are standard Win32 programs packaged inside MSIX. These clone easily because they behave like standard applications.
 * **Simple UWP games and utilities:** Small tools, calculators, and independent offline apps.
 
 ### 🔴 What CANNOT be cloned easily:
 * **Apps with DRM / License Checks:** Apps that strictly check with the Microsoft Store licensing API on launch (like paid games: Minecraft, Forza, etc.) will detect that the package identity is changed and fail to launch.
 * **System Integrations:** Apps that install background system drivers or bind to hardcoded Windows services (like antivirus tools or deep integration components) may fail when their package name is altered.
 * **Dependency Issues:** Some apps require specific system dependencies that are strictly bound to their original Package Family Name.
+* **Apps Relying on Push Notifications & Server Integrity (e.g. WhatsApp, Messenger):** Cloning these apps will lead to **frequent logouts (every few days)**.
+  * *Why:* Modifying the signature and package name breaks connection to the official Windows Push Notification Service (WNS) background channel (causing the server to terminate inactive links). Furthermore, the app's server-side client verification and local Credential Manager queries can detect the tampered signature or conflicting Device IDs.
+  * *Workaround:* Install the official **Stable** and **Beta** versions of the app side-by-side from the Microsoft Store (e.g., install *WhatsApp* + *WhatsApp Beta*), or run the second instance as a Progressive Web App (PWA) via a separate browser profile.
